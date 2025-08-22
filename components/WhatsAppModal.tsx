@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import type { WhatsAppFormData, UrgencyLevel } from '../types';
+import type { GuinchoFormData, TaxiFormData, UrgencyLevel, ServiceType } from '../types';
 
 interface WhatsAppModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: WhatsAppFormData) => void;
+  onSubmit: (data: { serviceType: ServiceType; formData: GuinchoFormData | TaxiFormData }) => void;
 }
 
-const initialFormState: WhatsAppFormData = {
+const initialGuinchoState: GuinchoFormData = {
   name: '',
   region: '',
   vehicle: '',
@@ -15,31 +15,197 @@ const initialFormState: WhatsAppFormData = {
   urgency: 'Média',
 };
 
+const initialTaxiState: TaxiFormData = {
+    name: '',
+    passengers: '1',
+    hasPet: false,
+    hasShopping: false,
+    needsWheelchairAccess: false,
+};
+
 const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit }) => {
-  const [formData, setFormData] = useState<WhatsAppFormData>(initialFormState);
+  const [serviceType, setServiceType] = useState<ServiceType>('guincho');
+  const [guinchoData, setGuinchoData] = useState<GuinchoFormData>(initialGuinchoState);
+  const [taxiData, setTaxiData] = useState<TaxiFormData>(initialTaxiState);
 
   useEffect(() => {
     if (!isOpen) {
       const timer = setTimeout(() => {
-        setFormData(initialFormState);
+        setServiceType('guincho');
+        setGuinchoData(initialGuinchoState);
+        setTaxiData(initialTaxiState);
       }, 300); // Reset form after closing animation
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleGuinchoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setGuinchoData(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleTaxiChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+        const { checked } = e.target as HTMLInputElement;
+        setTaxiData(prev => ({ ...prev, [name]: checked }));
+    } else {
+        setTaxiData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name.trim() && formData.region.trim() && formData.vehicle.trim()) {
-      onSubmit(formData);
+    if (serviceType === 'guincho') {
+      if (guinchoData.name.trim() && guinchoData.region.trim() && guinchoData.vehicle.trim()) {
+        onSubmit({ serviceType: 'guincho', formData: guinchoData });
+      }
+    } else {
+        if (taxiData.name.trim() && taxiData.passengers) {
+            onSubmit({ serviceType: 'taxi', formData: taxiData });
+        }
     }
   };
 
   if (!isOpen) return null;
+  
+  const renderGuinchoForm = () => (
+    <>
+      <div>
+        <label htmlFor="name-guincho" className="block text-sm font-medium text-white/80 mb-1">Nome</label>
+        <input 
+          id="name-guincho"
+          name="name"
+          type="text"
+          value={guinchoData.name}
+          onChange={handleGuinchoChange}
+          placeholder="Seu nome"
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
+          required
+          autoFocus
+        />
+      </div>
+       <div>
+        <label htmlFor="region" className="block text-sm font-medium text-white/80 mb-1">Sua Região</label>
+        <input 
+          id="region"
+          name="region"
+          type="text"
+          value={guinchoData.region}
+          onChange={handleGuinchoChange}
+          placeholder="Ex: Bairro, Cidade"
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="vehicle" className="block text-sm font-medium text-white/80 mb-1">Veículo</label>
+        <input 
+          id="vehicle"
+          name="vehicle"
+          type="text"
+          value={guinchoData.vehicle}
+          onChange={handleGuinchoChange}
+          placeholder="Ex: Carro, Moto, Caminhão"
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="situation" className="block text-sm font-medium text-white/80 mb-1">Situação</label>
+        <textarea
+          id="situation"
+          name="situation"
+          value={guinchoData.situation}
+          onChange={handleGuinchoChange}
+          placeholder="Descreva o problema (ex: pneu furado, pane elétrica)"
+          rows={3}
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
+        />
+      </div>
+       <div>
+        <label htmlFor="urgency" className="block text-sm font-medium text-white/80 mb-1">Nível de Urgência</label>
+        <select
+          id="urgency"
+          name="urgency"
+          value={guinchoData.urgency}
+          onChange={handleGuinchoChange}
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm appearance-none bg-no-repeat bg-right pr-8"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 0.5rem center', backgroundSize: '1.5em 1.5em' }}
+        >
+          <option value="Alta">Alta</option>
+          <option value="Média">Média</option>
+          <option value="Baixa">Baixa</option>
+        </select>
+      </div>
+    </>
+  );
+
+  const renderTaxiForm = () => (
+    <>
+      <div>
+        <label htmlFor="name-taxi" className="block text-sm font-medium text-white/80 mb-1">Nome</label>
+        <input 
+          id="name-taxi"
+          name="name"
+          type="text"
+          value={taxiData.name}
+          onChange={handleTaxiChange}
+          placeholder="Seu nome"
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
+          required
+          autoFocus
+        />
+      </div>
+      <div>
+        <label htmlFor="passengers" className="block text-sm font-medium text-white/80 mb-1">Quantidade de Pessoas</label>
+        <input 
+          id="passengers"
+          name="passengers"
+          type="number"
+          min="1"
+          max="8"
+          value={taxiData.passengers}
+          onChange={handleTaxiChange}
+          className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
+          required
+        />
+      </div>
+      <div className="space-y-3 pt-2">
+        <label className="flex items-center text-sm text-white/80 cursor-pointer">
+            <input
+                type="checkbox"
+                name="hasPet"
+                checked={taxiData.hasPet}
+                onChange={handleTaxiChange}
+                className="h-5 w-5 rounded border-white/30 bg-black/30 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3">Leva animal de estimação?</span>
+        </label>
+         <label className="flex items-center text-sm text-white/80 cursor-pointer">
+            <input
+                type="checkbox"
+                name="hasShopping"
+                checked={taxiData.hasShopping}
+                onChange={handleTaxiChange}
+                className="h-5 w-5 rounded border-white/30 bg-black/30 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3">Possui compras / bagagem?</span>
+        </label>
+         <label className="flex items-center text-sm text-white/80 cursor-pointer">
+            <input
+                type="checkbox"
+                name="needsWheelchairAccess"
+                checked={taxiData.needsWheelchairAccess}
+                onChange={handleTaxiChange}
+                className="h-5 w-5 rounded border-white/30 bg-black/30 text-red-600 focus:ring-red-500"
+            />
+            <span className="ml-3">Necessita de acesso para cadeirante?</span>
+        </label>
+      </div>
+    </>
+  );
 
   return (
     <div 
@@ -59,82 +225,31 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
           </svg>
         </button>
 
+        <div className="mb-6">
+            <div className="flex justify-center p-1 bg-black/30 rounded-lg border border-white/20">
+                <button 
+                    onClick={() => setServiceType('guincho')}
+                    className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors duration-300 ${serviceType === 'guincho' ? 'bg-red-600 text-white' : 'text-white/70 hover:bg-white/10'}`}
+                >
+                    Guincho
+                </button>
+                <button 
+                    onClick={() => setServiceType('taxi')}
+                    className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors duration-300 ${serviceType === 'taxi' ? 'bg-red-600 text-white' : 'text-white/70 hover:bg-white/10'}`}
+                >
+                    Táxi
+                </button>
+            </div>
+        </div>
+
         <h2 className="text-lg sm:text-3xl font-bold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-white to-gray-400 animate-text-gradient">
-          Solicitar Guincho
+          {serviceType === 'guincho' ? 'Solicitar Guincho' : 'Solicitar Táxi'}
         </h2>
         <p className="text-center text-xs sm:text-sm text-white/70 mb-6">Preencha os dados para agilizar o atendimento.</p>
+        
         <form onSubmit={handleSubmit} className="space-y-4">
           
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-1">Nome Completo</label>
-            <input 
-              id="name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Seu nome"
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
-              required
-              autoFocus
-            />
-          </div>
-
-          <div>
-            <label htmlFor="region" className="block text-sm font-medium text-white/80 mb-1">Sua Região</label>
-            <input 
-              id="region"
-              name="region"
-              type="text"
-              value={formData.region}
-              onChange={handleChange}
-              placeholder="Ex: Bairro, Cidade"
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="vehicle" className="block text-sm font-medium text-white/80 mb-1">Veículo</label>
-            <input 
-              id="vehicle"
-              name="vehicle"
-              type="text"
-              value={formData.vehicle}
-              onChange={handleChange}
-              placeholder="Ex: Carro, Moto, Caminhão"
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
-              required
-            />
-          </div>
-          
-          <div>
-            <label htmlFor="situation" className="block text-sm font-medium text-white/80 mb-1">Situação</label>
-            <textarea
-              id="situation"
-              name="situation"
-              value={formData.situation}
-              onChange={handleChange}
-              placeholder="Descreva o problema (ex: pneu furado, pane elétrica)"
-              rows={3}
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
-            />
-          </div>
-
-           <div>
-            <label htmlFor="urgency" className="block text-sm font-medium text-white/80 mb-1">Nível de Urgência</label>
-            <select
-              id="urgency"
-              name="urgency"
-              value={formData.urgency}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
-            >
-              <option value="Alta">Alta</option>
-              <option value="Média">Média</option>
-              <option value="Baixa">Baixa</option>
-            </select>
-          </div>
+          {serviceType === 'guincho' ? renderGuinchoForm() : renderTaxiForm()}
 
           <button 
             type="submit"

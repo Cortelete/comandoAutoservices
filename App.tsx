@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import type { LinkInfo, WhatsAppFormData } from './types';
+import type { LinkInfo, GuinchoFormData, TaxiFormData, ServiceType } from './types';
 import LinkButton from './components/LinkButton';
 import WhatsAppModal from './components/WhatsAppModal';
 import GoogleReviewModal from './components/GoogleReviewModal';
@@ -42,21 +42,40 @@ const App: React.FC = () => {
   }, []);
 
 
-  const handleWhatsAppModalSubmit = useCallback((data: WhatsAppFormData) => {
+  const handleWhatsAppModalSubmit = useCallback((data: { serviceType: ServiceType; formData: GuinchoFormData | TaxiFormData }) => {
     const clientPhoneNumber = "5542999316855";
-    const message = `
-Olá, preciso de um guincho!
----------------------------------
-*Nome:* ${data.name}
-*Região:* ${data.region}
-*Veículo:* ${data.vehicle}
-*Situação:* ${data.situation}
-*Urgência:* ${data.urgency}
----------------------------------
-Aguardo contato.
-    `.trim().replace(/^\s+/gm, '');
+    let messageBody = '';
 
-    const whatsappUrl = `https://wa.me/${clientPhoneNumber}?text=${encodeURIComponent(message)}`;
+    if (data.serviceType === 'guincho') {
+        const guinchoData = data.formData as GuinchoFormData;
+        messageBody = `
+*SERVIÇO DE GUINCHO*
+---------------------------------
+*Nome:* ${guinchoData.name}
+*Região:* ${guinchoData.region}
+*Veículo:* ${guinchoData.vehicle}
+*Situação:* ${guinchoData.situation}
+*Urgência:* ${guinchoData.urgency}
+---------------------------------
+`.trim();
+    } else {
+        const taxiData = data.formData as TaxiFormData;
+        messageBody = `
+*SOLICITAÇÃO DE TÁXI*
+---------------------------------
+*Nome:* ${taxiData.name}
+*Passageiros:* ${taxiData.passengers}
+*Necessidades:*
+  - Animal de Estimação: ${taxiData.hasPet ? 'Sim' : 'Não'}
+  - Compras/Bagagem: ${taxiData.hasShopping ? 'Sim' : 'Não'}
+  - Acesso para Cadeirante: ${taxiData.needsWheelchairAccess ? 'Sim' : 'Não'}
+---------------------------------
+`.trim();
+    }
+
+    const message = `Olá, gostaria de solicitar um serviço!\n\n${messageBody}\n\nAguardo contato.`;
+
+    const whatsappUrl = `https://wa.me/${clientPhoneNumber}?text=${encodeURIComponent(message.replace(/^\s+/gm, ''))}`;
     window.open(whatsappUrl, '_blank');
     setIsWhatsAppModalOpen(false);
   }, []);

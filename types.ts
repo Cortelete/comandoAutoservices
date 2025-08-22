@@ -12,10 +12,20 @@ export interface LinkInfo {
 
 export type UrgencyLevel = 'Alta' | 'Média' | 'Baixa';
 
-export interface WhatsAppFormData {
+export type ServiceType = 'guincho' | 'taxi';
+
+export interface GuinchoFormData {
   name: string;
   region: string;
   vehicle: string;
   situation: string;
   urgency: UrgencyLevel;
+}
+
+export interface TaxiFormData {
+    name: string;
+    passengers: string;
+    hasPet: boolean;
+    hasShopping: boolean;
+    needsWheelchairAccess: boolean;
 }
