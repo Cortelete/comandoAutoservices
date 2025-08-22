@@ -2,8 +2,8 @@
 import React from 'react';
 
 const TikTokIcon: React.FC = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L12 20V4.5a3.5 3.5 0 1 1 7 0v5Z"></path>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-white">
+    <path d="M16.6 5.82h-4.18V16.3c0 1.25-.38 2.22-1.13 2.91-.75.69-1.8 1.03-3.14 1.03-1.34 0-2.4-.34-3.14-1.03-.75-.69-1.13-1.66-1.13-2.91s.38-2.22 1.13-2.91c.74-.69 1.8-1.03 3.14-1.03.4 0 .8.04 1.2.12V11.2c-.37-.08-.74-.12-1.12-.12-2.12 0-3.75.59-4.88 1.76-1.13 1.17-1.69 2.78-1.69 4.82s.56 3.65 1.69 4.82c1.13 1.17 2.76 1.76 4.88 1.76s3.75-.59 4.88-1.76c1.13-1.17 1.69-2.78 1.69-4.82V5.82h4.18V2H12.42v3.82z"/>
   </svg>
 );
 

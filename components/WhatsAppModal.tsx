@@ -47,13 +47,13 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
       onClick={onClose}
     >
       <div 
-        className="bg-black/60 backdrop-blur-lg border border-white/20 text-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-md animate-modal-in"
+        className="bg-black/60 backdrop-blur-lg border border-white/20 text-white rounded-2xl shadow-2xl p-5 md:p-8 w-full max-w-md animate-modal-in max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-white to-gray-400 animate-text-gradient">
+        <h2 className="text-lg sm:text-3xl font-bold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-white to-gray-400 animate-text-gradient">
           Solicitar Guincho
         </h2>
-        <p className="text-center text-sm sm:text-base text-white/70 mb-6">Preencha os dados para agilizar o atendimento.</p>
+        <p className="text-center text-xs sm:text-sm text-white/70 mb-6">Preencha os dados para agilizar o atendimento.</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           
           <div>
@@ -65,7 +65,7 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
               value={formData.name}
               onChange={handleChange}
               placeholder="Seu nome"
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-base"
+              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
               required
               autoFocus
             />
@@ -80,7 +80,7 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
               value={formData.region}
               onChange={handleChange}
               placeholder="Ex: Bairro, Cidade"
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-base"
+              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
               required
             />
           </div>
@@ -94,7 +94,7 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
               value={formData.vehicle}
               onChange={handleChange}
               placeholder="Ex: Carro, Moto, Caminhão"
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-base"
+              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
               required
             />
           </div>
@@ -108,7 +108,7 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
               onChange={handleChange}
               placeholder="Descreva o problema (ex: pneu furado, pane elétrica)"
               rows={3}
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-base"
+              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
             />
           </div>
 
@@ -119,7 +119,7 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
               name="urgency"
               value={formData.urgency}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-base"
+              className="w-full px-4 py-2.5 bg-black/30 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-300 text-sm"
             >
               <option value="Alta">Alta</option>
               <option value="Média">Média</option>
@@ -129,7 +129,7 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
 
           <button 
             type="submit"
-            className="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-500/30 text-base sm:text-lg"
+            className="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-500/30 text-sm sm:text-base"
           >
             Chamar no WhatsApp
           </button>
