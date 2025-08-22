@@ -112,7 +112,7 @@ Aguardo contato.
                 alt="Comando Autoservice Logo" 
                 className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mx-auto object-contain"
               />
-              <h1 className="mt-5 text-lg sm:text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-white to-gray-300 animate-text-gradient" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.6)' }}>
+              <h1 className="mt-5 text-lg sm:text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-white to-red-500 animate-text-gradient" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.6)' }}>
                 Comando Autoservice
               </h1>
               <p className="mt-1 text-xs sm:text-sm md:text-lg font-light bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-red-300 to-red-400 animate-text-gradient" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.5)' }}>
