@@ -93,14 +93,18 @@ Aguardo contato.
       <div className="relative min-h-screen w-full bg-gradient-to-br from-red-900 via-black to-red-800 animate-gradient text-white grid place-items-center overflow-y-auto px-4 py-6 sm:px-6 sm:py-12">
         
         <div 
-          className="relative w-full max-w-md bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-5 sm:p-8"
-          style={{ 
-            backgroundImage: 'url(/fundo.png)', 
-            backgroundBlendMode: 'overlay', 
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
+          className="relative w-full max-w-md bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-5 sm:p-8 overflow-hidden"
         >
+          <div 
+            className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{
+              backgroundImage: 'url(/fundo.png)', 
+              backgroundBlendMode: 'overlay', 
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          ></div>
+
           <div className="relative z-10 flex flex-col items-center">
             <header className="w-full text-center animate-fade-in-down">
               <img 
@@ -112,7 +116,7 @@ Aguardo contato.
                 Comando Autoservice
               </h1>
               <p className="mt-1 text-xs sm:text-sm md:text-lg font-light bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-red-300 to-red-400 animate-text-gradient" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.5)' }}>
-                Rock na veia, asfalto no coração.
+                Até aqui nos ajudou o Senhor.
               </p>
               <div className="mt-5">
                 <span className="inline-block bg-red-600/90 text-white text-xs font-bold px-3 py-1 sm:px-5 sm:py-2 rounded-full border-2 border-red-400/80 animate-glow shadow-lg tracking-wider">
