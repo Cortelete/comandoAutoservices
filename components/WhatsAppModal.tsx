@@ -47,7 +47,6 @@ const WhatsAppModal: React.FC<WhatsAppModalProps> = ({ isOpen, onClose, onSubmit
     >
       <div 
         className="relative bg-black/60 backdrop-blur-lg border border-white/20 text-white rounded-2xl shadow-2xl p-5 md:p-8 w-full max-w-md animate-modal-in max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}

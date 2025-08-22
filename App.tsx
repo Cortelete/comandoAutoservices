@@ -3,6 +3,7 @@ import type { LinkInfo, WhatsAppFormData } from './types';
 import LinkButton from './components/LinkButton';
 import WhatsAppModal from './components/WhatsAppModal';
 import GoogleReviewModal from './components/GoogleReviewModal';
+import ConstructionModal from './components/ConstructionModal';
 import InstagramIcon from './components/icons/InstagramIcon';
 import WhatsAppIcon from './components/icons/WhatsAppIcon';
 import FacebookIcon from './components/icons/FacebookIcon';
@@ -14,6 +15,7 @@ import SparklesIcon from './components/icons/SparklesIcon';
 const App: React.FC = () => {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isConstructionModalOpen, setIsConstructionModalOpen] = useState(false);
 
   const handleWhatsAppClick = useCallback(() => {
     setIsWhatsAppModalOpen(true);
@@ -30,6 +32,15 @@ const App: React.FC = () => {
   const handleReviewModalClose = useCallback(() => {
     setIsReviewModalOpen(false);
   }, []);
+
+  const handleConstructionModalOpen = useCallback(() => {
+    setIsConstructionModalOpen(true);
+  }, []);
+
+  const handleConstructionModalClose = useCallback(() => {
+    setIsConstructionModalOpen(false);
+  }, []);
+
 
   const handleWhatsAppModalSubmit = useCallback((data: WhatsAppFormData) => {
     const clientPhoneNumber = "5542999316855";
@@ -69,20 +80,20 @@ Aguardo contato.
     {
       id: 'instagram',
       title: 'Instagram',
-      url: '#',
       icon: <InstagramIcon />,
+      action: handleConstructionModalOpen,
     },
     {
       id: 'facebook',
       title: 'Facebook',
-      url: '#',
       icon: <FacebookIcon />,
+      action: handleConstructionModalOpen,
     },
     {
       id: 'tiktok',
       title: 'TikTok',
-      url: '#',
       icon: <TikTokIcon />,
+      action: handleConstructionModalOpen,
     },
   ];
 
@@ -166,6 +177,10 @@ Aguardo contato.
         isOpen={isReviewModalOpen}
         onClose={handleReviewModalClose}
         googleReviewUrl={googleReviewUrl}
+      />
+      <ConstructionModal
+        isOpen={isConstructionModalOpen}
+        onClose={handleConstructionModalClose}
       />
     </>
   );
